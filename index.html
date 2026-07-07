@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULDNLC Portfolio</title>
+    <meta name="description" content="クリエイティブスタジオULDNLCの制作実績。ブランドムービー、MV、イベント映像、施設紹介映像、YouTube編集などのポートフォリオ。">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@300;400;500&family=Manrope:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 基本設定 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', 'Zen Kaku Gothic New', sans-serif;
+            background-color: #050505;
+            color: #e0e0e0;
+            line-height: 1.7;
+            letter-spacing: 0.04em;
+            font-weight: 400; 
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .work-year, .detail-label, .hero-subtitle, .about-slogan {
+            font-family: 'Big Shoulders Display', sans-serif;
+            text-transform: uppercase;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+        a:hover { opacity: 0.7; }
+
+        /* --- フェードインアニメーション --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- レイアウト --- */
+        .container {
+            width: 88%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 0;
+        }
+
+        h2.section-title {
+            font-family: 'Big Shoulders Display', sans-serif;
+            font-size: 4.2rem;
+            line-height: 0.9;
+            margin-bottom: 90px;
+            text-align: center;
+            font-weight: 300;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-family: 'Big Shoulders Display', sans-serif;
+            font-size: 8.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            line-height: 0.75;
+            color: #fff;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            opacity: 0.9;
+            letter-spacing: 0.3em;
+            margin-top: 15px;
+            font-family: 'Big Shoulders Display', sans-serif;
+        }
+
+        /* --- Works Section --- */
+        .work-item {
+            margin-bottom: 160px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #111;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+            margin-bottom: 30px;
+        }
+
+        .video-wrapper video,
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+        }
+
+        .work-info {
+            padding: 0 5px;
+        }
+
+        .work-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+
+        .project-title {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+
+        /* .work-year Removed based on request */
+
+        .work-details {
+            font-size: 0.95rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2px;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            align-items: baseline;
+            padding: 2px 0;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-content {
+            font-family: 'Manrope', 'Zen Kaku Gothic New', sans-serif;
+            color: #ccc;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        .detail-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            border: 1px solid #333;
+            padding: 2px 12px;
+            color: #bbb;
+            margin-top: 5px;
+            margin-right: 5px;
+            font-family: 'Manrope', sans-serif;
+            text-transform: capitalize;
+        }
+
+        /* --- About & Footer --- */
+        .about-text {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1rem;
+            color: #ccc;
+            font-weight: 400;
+            line-height: 2.2;
+        }
+        
+        .about-slogan {
+            margin-top: 60px;
+            font-size: 3rem;
+            line-height: 0.9;
+            color: #fff;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        
+        .about-slogan-jp {
+            display: block;
+            margin-top: 20px;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 120px 0;
+            border-top: 1px solid #111;
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 100px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .main-site-link {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 5px 0;
+            border-bottom: 1px solid #fff;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease;
+        }
+        
+        .main-site-link:hover {
+            opacity: 0.6;
+            letter-spacing: 0.25em;
+        }
+
+        /* --- スマホ向け調整 --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 5.5rem; }
+            .hero-subtitle { font-size: 1rem; letter-spacing: 0.2em; }
+            .section-title { font-size: 2.8rem; } 
+            .about-slogan { font-size: 2rem; margin-top: 40px; }
+            .project-title { font-size: 1.2rem; }
+            
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+                margin-bottom: 10px;
+            }
+            .detail-label {
+                color: #555;
+                font-size: 1.1rem;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <video class="hero-video-bg" autoplay muted loop playsinline poster="https://via.placeholder.com/1920x1080/000000/ffffff?text=ULDNLC">
+            <source src="top.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero-content fade-up">
+            <h1 class="hero-title">ULDNLC</h1>
+            <p class="hero-subtitle">CREATIVE BEYOND LIMITS</p>
+        </div>
+    </header>
+
+    <section class="container" id="works">
+        <h2 class="section-title fade-up">WORKS</h2>
+        
+
+
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/X0cj65SNnOU?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">イベントムービー制作</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">島村楽器</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / Planning / Shoot / Edit / Operation</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film (SNS)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">documentary</span> <span class="detail-tag">cinematic</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/6JyYvJ0GQyw?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">ブランドムービー作成</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">Caramel's Guitar Kitchen</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / Planning / Shoot / Edit / Casting / Operation</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film (SNS, YouTube)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">pop</span> <span class="detail-tag">energetic</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/UJbBVuI9D2I?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">ブランドヴィジュアル制作</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">Réminiscent</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / Planning / Shoot / Edit / Operation</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Nature graphics</span> <span class="detail-tag">cinematic</span> <span class="detail-tag">Artistic</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/IhyWkaBU2_I?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">MV制作</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">lil bluesky</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / Planning / Shoot / Edit / Recording / Mix / Mastering / Operation</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film (YouTube)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">nostalgic</span> <span class="detail-tag">chill</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/tlflT4_RRmM?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">施設紹介映像</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">NPO法人 自立支援センターおおいた</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / composition / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film(インタビュー映像)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Documentary</span> <span class="detail-tag">Interview</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/NF7tChV1cjU?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">施設紹介映像</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">大分県 別府市営 浜脇温泉</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / composition / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film(インタビュー映像)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Documentary</span> <span class="detail-tag">Interview</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/2ET1H6LfU8c?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">施設紹介映像</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">大分県 別府市営 湯都ピア浜脇</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Direction / composition / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Main Film(インタビュー映像)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Documentary</span> <span class="detail-tag">Interview</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/nuTUgmzbR_o?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">YouTube編集(継続)</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">株式会社Pedaltic</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">YouTube Film(YouTube動画)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Cinematic</span> <span class="detail-tag">Surreal</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/OmGzQbKTtF4?rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">YouTube編集</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">田中overdrive / 学生ギタリスト</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">YouTube Film(YouTube動画)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Pop</span> <span class="detail-tag">Instrument</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+
+
+
+
+    </section>
+
+    <section class="container fade-up" id="about">
+        <h2 class="section-title">What is ULDNLC</h2>
+        <div class="about-text">
+            <p>
+                ULDNLCは、自由な発想と誠実なものづくりで、<br>
+                見えない価値を可視化し、世界へ届けるクリエイティブパートナーです。
+            </p>
+            <div class="about-slogan">
+                Creative Beyond Limits
+                <span class="about-slogan-jp">― 限界を超える創造を。</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ULDNLC. All Rights Reserved.</p>
+        <a href="https://uldnlc.com" class="main-site-link">OFFICIAL WEBSITE &rarr;</a>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
