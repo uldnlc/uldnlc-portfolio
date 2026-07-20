@@ -62,6 +62,78 @@
             letter-spacing: 0.05em;
         }
 
+
+        h3.category-label {
+            font-family: 'Big Shoulders Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #fff;
+            letter-spacing: 0.18em;
+            opacity: 0.75;
+            margin: 0 0 45px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.18);
+        }
+
+        .work-item + h3.category-label {
+            margin-top: 100px;
+        }
+
+        /* --- P-1: カラーグレーディング（"GRADE" とタイプ） --- */
+        /* P-2のフェードと filter が競合するため、グレードは変数で合成する */
+        body { --grade: opacity(1); }
+        body.grade-mono   { --grade: grayscale(1) contrast(1.08); }
+        body.grade-teal   { --grade: sepia(0.32) hue-rotate(-14deg) saturate(1.65) contrast(1.05); }
+        body.grade-bleach { --grade: saturate(0.32) contrast(1.5) brightness(1.06); }
+
+        img, video, iframe {
+            filter: var(--grade);
+            transition: filter 0.9s ease;
+        }
+
+        .grade-label {
+            position: fixed;
+            right: 24px;
+            bottom: 22px;
+            z-index: 999;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.16);
+            padding: 6px 14px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .grade-label.visible { opacity: 1; }
+
+        /* --- P-2: フェード（動画枠にhoverすると本来の明るさへ立ち上がる） --- */
+        .video-wrapper video,
+        .video-wrapper iframe,
+        .video-wrapper img {
+            filter: var(--grade) brightness(0.78) saturate(0.88);
+            transition: filter 1.5s cubic-bezier(0.22, 0, 0.2, 1);
+        }
+        .video-wrapper:hover video,
+        .video-wrapper:hover iframe,
+        .video-wrapper:hover img {
+            filter: var(--grade) brightness(1) saturate(1);
+        }
+
+        /* 枠自体も沈み込みから浮き上がる（基本スタイルは Works Section 側で定義） */
+        .video-wrapper:hover {
+            box-shadow: 0 46px 96px rgba(0,0,0,0.85);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .video-wrapper video,
+            .video-wrapper iframe,
+            .video-wrapper img,
+            .video-wrapper { transition: none; }
+        }
+
         /* --- Hero Section --- */
         .hero {
             position: relative;
@@ -121,6 +193,7 @@
             background-color: #111;
             box-shadow: 0 40px 80px rgba(0,0,0,0.7);
             margin-bottom: 30px;
+            transition: box-shadow 1.5s cubic-bezier(0.22, 0, 0.2, 1);
         }
 
         .video-wrapper video,
@@ -298,6 +371,8 @@
 
 
 
+        <h3 class="category-label fade-up">FILM</h3>
+
         <article class="work-item fade-up">
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/X0cj65SNnOU?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -317,47 +392,6 @@
                 </div>
             </div>
         </article>
-
-        <article class="work-item fade-up">
-            <div class="video-wrapper">
-                <img src="work-musashino.jpg" alt="武蔵野万博" loading="lazy">
-            </div>
-            <div class="work-info">
-                <div class="work-header">
-                    <span class="project-title">イベント クリエイティブディレクション</span>
-                </div>
-                <div class="work-details">
-                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">武蔵野万博</span></div>
-                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Creative Direction / Planning / SNS Management</span></div>
-                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Event Creative Direction</span></div>
-                    <div class="detail-row">
-                        <span class="detail-label">Notes</span>
-                        <span class="detail-content"><span class="detail-tag">Event</span> <span class="detail-tag">Direction</span></span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="work-item fade-up">
-            <div class="video-wrapper">
-                <img src="work-battlestrings.jpg" alt="BATTLE STRINGS" loading="lazy">
-            </div>
-            <div class="work-info">
-                <div class="work-header">
-                    <span class="project-title">イベント企画・運営</span>
-                </div>
-                <div class="work-details">
-                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ULDNLC(自社企画)</span></div>
-                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Planning / Direction / Operation</span></div>
-                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Guitar Battle Event</span></div>
-                    <div class="detail-row">
-                        <span class="detail-label">Notes</span>
-                        <span class="detail-content"><span class="detail-tag">Event</span> <span class="detail-tag">Original</span></span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
 
         <article class="work-item fade-up">
             <div class="video-wrapper">
@@ -419,8 +453,49 @@
             </div>
         </article>
 
+        <h3 class="category-label fade-up">EVENT & DIRECTION</h3>
 
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <img src="work-musashino.jpg" alt="武蔵野万博" loading="lazy">
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">イベント クリエイティブディレクション</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">武蔵野万博</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Creative Direction / Planning / SNS Management</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Event Creative Direction</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Event</span> <span class="detail-tag">Direction</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
 
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <img src="work-battlestrings.jpg" alt="BATTLE STRINGS" loading="lazy">
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">イベント企画・運営</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ULDNLC(自社企画)</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Planning / Direction / Operation</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Guitar Battle Event</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Event</span> <span class="detail-tag">Original</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <h3 class="category-label fade-up">SNS & YOUTUBE</h3>
 
         <article class="work-item fade-up">
             <div class="video-wrapper">
@@ -462,8 +537,25 @@
             </div>
         </article>
 
-
-
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/QwH-v-2ShVI?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">ショート動画企画・編集</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">Ayers guitar</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Planning / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">ショート動画(YouTube Shorts)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Instrument</span> <span class="detail-tag">Short</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
 
 
     </section>
@@ -471,6 +563,8 @@
     <section class="container" id="member-works">
         <h2 class="section-title fade-up">MEMBER WORKS</h2>
         <p class="member-works-note fade-up" style="text-align: center; margin: -60px auto 90px; opacity: 0.6; font-size: 0.85rem; letter-spacing: 0.1em;">所属クリエイターによる、ULDNLC加入前の実績です。</p>
+        <h3 class="category-label fade-up">FILM</h3>
+
         <article class="work-item fade-up">
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/tlflT4_RRmM?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -490,6 +584,7 @@
                 </div>
             </div>
         </article>
+
         <article class="work-item fade-up">
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/NF7tChV1cjU?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -509,6 +604,7 @@
                 </div>
             </div>
         </article>
+
         <article class="work-item fade-up">
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/2ET1H6LfU8c?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -524,86 +620,6 @@
                     <div class="detail-row">
                         <span class="detail-label">Notes</span>
                         <span class="detail-content"><span class="detail-tag">Documentary</span> <span class="detail-tag">Interview</span></span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="work-item fade-up">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/V_SNQ1TRedc?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="work-info">
-                <div class="work-header">
-                    <span class="project-title">YouTube編集(楽器紹介)</span>
-                </div>
-                <div class="work-details">
-                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ABBEY ROAD Tokyo</span></div>
-                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
-                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">楽器紹介コンテンツ(リッケンバッカー 12弦ギター編)</span></div>
-                    <div class="detail-row">
-                        <span class="detail-label">Notes</span>
-                        <span class="detail-content"><span class="detail-tag">YouTube</span> <span class="detail-tag">Music</span></span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="work-item fade-up">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/HmKEFtKZHmU?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="work-info">
-                <div class="work-header">
-                    <span class="project-title">YouTube編集(楽器紹介)</span>
-                </div>
-                <div class="work-details">
-                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ABBEY ROAD Tokyo</span></div>
-                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
-                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">楽器紹介コンテンツ(ハモンドオルガン・ドローバー編)</span></div>
-                    <div class="detail-row">
-                        <span class="detail-label">Notes</span>
-                        <span class="detail-content"><span class="detail-tag">YouTube</span> <span class="detail-tag">Music</span></span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="work-item fade-up">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/DxgjxH7XV_o?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="work-info">
-                <div class="work-header">
-                    <span class="project-title">YouTube編集(楽器紹介)</span>
-                </div>
-                <div class="work-details">
-                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ABBEY ROAD Tokyo</span></div>
-                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
-                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">楽器紹介コンテンツ(ハモンドオルガン エフェクト編)</span></div>
-                    <div class="detail-row">
-                        <span class="detail-label">Notes</span>
-                        <span class="detail-content"><span class="detail-tag">YouTube</span> <span class="detail-tag">Music</span></span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="work-item fade-up">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/WezHD31OZOM?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="work-info">
-                <div class="work-header">
-                    <span class="project-title">ショート動画編集</span>
-                </div>
-                <div class="work-details">
-                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">大聖堂 / Daiseidō</span></div>
-                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
-                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Short Movie(プロポーズ)</span></div>
-                    <div class="detail-row">
-                        <span class="detail-label">Notes</span>
-                        <span class="detail-content"><span class="detail-tag">Shorts</span> <span class="detail-tag">Music</span></span>
                     </div>
                 </div>
             </div>
@@ -688,6 +704,89 @@
                 </div>
             </div>
         </article>
+
+        <h3 class="category-label fade-up">SNS & YOUTUBE</h3>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/V_SNQ1TRedc?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">YouTube編集(楽器紹介)</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ABBEY ROAD Tokyo</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">楽器紹介コンテンツ(リッケンバッカー 12弦ギター編)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">YouTube</span> <span class="detail-tag">Music</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/HmKEFtKZHmU?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">YouTube編集(楽器紹介)</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ABBEY ROAD Tokyo</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">楽器紹介コンテンツ(ハモンドオルガン・ドローバー編)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">YouTube</span> <span class="detail-tag">Music</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/DxgjxH7XV_o?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">YouTube編集(楽器紹介)</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">ABBEY ROAD Tokyo</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">楽器紹介コンテンツ(ハモンドオルガン エフェクト編)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">YouTube</span> <span class="detail-tag">Music</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="work-item fade-up">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/WezHD31OZOM?rel=0" title="YouTube video player" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="work-info">
+                <div class="work-header">
+                    <span class="project-title">ショート動画編集</span>
+                </div>
+                <div class="work-details">
+                    <div class="detail-row"><span class="detail-label">Client</span><span class="detail-content">大聖堂 / Daiseidō</span></div>
+                    <div class="detail-row"><span class="detail-label">Role</span><span class="detail-content">Shoot / Edit</span></div>
+                    <div class="detail-row"><span class="detail-label">Deliverables</span><span class="detail-content">Short Movie(プロポーズ)</span></div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes</span>
+                        <span class="detail-content"><span class="detail-tag">Shorts</span> <span class="detail-tag">Music</span></span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
     </section>
 
     <section class="container fade-up" id="about">
@@ -719,6 +818,45 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // --- P-1: カラーグレーディング（"GRADE" とタイプ / ESCで解除） ---
+        (function () {
+            const GRADES = [
+                { cls: '',             name: null },
+                { cls: 'grade-mono',   name: 'MONOCHROME' },
+                { cls: 'grade-teal',   name: 'TEAL & ORANGE' },
+                { cls: 'grade-bleach', name: 'BLEACH BYPASS' }
+            ];
+            const label = document.createElement('div');
+            label.className = 'grade-label';
+            document.body.appendChild(label);
+
+            let idx = 0;
+            let buf = '';
+
+            function apply(i) {
+                GRADES.forEach(g => g.cls && document.body.classList.remove(g.cls));
+                idx = i;
+                const g = GRADES[i];
+                if (g.cls) document.body.classList.add(g.cls);
+                if (g.name) {
+                    label.textContent = '● LUT / ' + g.name;
+                    label.classList.add('visible');
+                } else {
+                    label.classList.remove('visible');
+                }
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { if (idx !== 0) apply(0); return; }
+                if (e.key.length !== 1 || e.metaKey || e.ctrlKey || e.altKey) return;
+                buf = (buf + e.key.toLowerCase()).slice(-5);
+                if (buf === 'grade') {
+                    buf = '';
+                    apply((idx + 1) % GRADES.length);
+                }
+            });
+        })();
     </script>
 
 </body>
